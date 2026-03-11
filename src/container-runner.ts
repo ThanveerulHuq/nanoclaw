@@ -124,7 +124,10 @@ function buildVolumeMounts(
   fs.mkdirSync(groupSessionsDir, { recursive: true, mode: 0o777 });
   // Claude Agent SDK writes debug logs to ~/.claude/debug/ — ensure it exists
   // since this host directory is bind-mounted over /home/node/.claude
-  fs.mkdirSync(path.join(groupSessionsDir, 'debug'), { recursive: true, mode: 0o777 });
+  fs.mkdirSync(path.join(groupSessionsDir, 'debug'), {
+    recursive: true,
+    mode: 0o777,
+  });
   const settingsFile = path.join(groupSessionsDir, 'settings.json');
   if (!fs.existsSync(settingsFile)) {
     fs.writeFileSync(
@@ -169,9 +172,18 @@ function buildVolumeMounts(
   // Per-group IPC namespace: each group gets its own IPC directory
   // This prevents cross-group privilege escalation via IPC
   const groupIpcDir = resolveGroupIpcPath(group.folder);
-  fs.mkdirSync(path.join(groupIpcDir, 'messages'), { recursive: true, mode: 0o777 });
-  fs.mkdirSync(path.join(groupIpcDir, 'tasks'), { recursive: true, mode: 0o777 });
-  fs.mkdirSync(path.join(groupIpcDir, 'input'), { recursive: true, mode: 0o777 });
+  fs.mkdirSync(path.join(groupIpcDir, 'messages'), {
+    recursive: true,
+    mode: 0o777,
+  });
+  fs.mkdirSync(path.join(groupIpcDir, 'tasks'), {
+    recursive: true,
+    mode: 0o777,
+  });
+  fs.mkdirSync(path.join(groupIpcDir, 'input'), {
+    recursive: true,
+    mode: 0o777,
+  });
   mounts.push({
     hostPath: groupIpcDir,
     containerPath: '/workspace/ipc',
